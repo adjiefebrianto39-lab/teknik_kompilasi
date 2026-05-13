@@ -1,0 +1,20 @@
+def power(self):
+    node = self.factor()
+
+    # menangani operator '^' (right-associative)
+    while self._current == '^':
+        op = self._current
+        self.advance()
+        node = BinOp(left=node, op=op, right=self.factor())
+
+    return node
+
+def term(self):
+    node = self.power()
+
+    while self._current in ('*', '/'):
+        op = self._current
+        self.advance()
+        node = BinOp(left=node, op=op, right=self.power())
+
+    return node
